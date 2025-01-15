@@ -2,7 +2,7 @@
 # https://hub.docker.com/_/python/tags?page=1&name=3.11-slim-bullseye
 FROM docker.io/python:3.11-slim-bullseye
 
-MAINTAINER myh
+LABEL maintainer="jingnanl@amazon.com"
 #增加语言utf-8
 ENV LANG=zh_CN.UTF-8
 ENV LC_CTYPE=zh_CN.UTF-8
@@ -17,10 +17,14 @@ EXPOSE 9988
 # 安装依赖库
 # apt-get autoremove -y 删除没有用的依赖lib
 # apt-get --purge remove 软件包名称 , 删除已安装包（不保留配置文件)
-RUN sed -i "s@http://\(deb\|security\).debian.org@https://mirrors.aliyun.com@g" /etc/apt/sources.list && \
-    echo  "[global]\n\
-index-url = https://mirrors.aliyun.com/pypi/simple\n\
-trusted-host = mirrors.aliyun.com" > /etc/pip.conf && \
+#RUN sed -i "s@http://\(deb\|security\).debian.org@https://mirrors.aliyun.com@g" /etc/apt/sources.list && \
+#    echo  "[global]\n\
+#index-url = https://mirrors.aliyun.com/pypi/simple\n\
+#trusted-host = mirrors.aliyun.com" > /etc/pip.conf && \
+#RUN sed -i "s@https://mirrors.aliyun.com@http://deb.debian.org@g" /etc/apt/sources.list && \
+RUN echo  "[global]\n\
+index-url = https://pypi.org/simple\n\
+trusted-host = pypi.org" > /etc/pip.conf && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
     apt-get update && \
